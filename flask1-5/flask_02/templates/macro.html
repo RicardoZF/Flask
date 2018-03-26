@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% import 'macro_base.html' as func %}
+<form>
+    {{ func.input("用户名:", name="username") }}
+    {{ func.input("昵称::", name="nickname") }}
+    {{ func.input("身份证:", name="idcard") }}
+    {{ func.input("密码:", type="password", name="password") }}
+    {{ func.input("确认密码:", type="password", name="password2") }}
+    {{ func.input(type="submit", value="提交") }}
+</form>
+</body>
+</html>

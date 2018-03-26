@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{ config.root_path }}<hr>
+{{ request.url }}<hr>
+{{ g.name }}<hr>
+{{ session.get('name') }}
+<hr>
+
+{{ url_for('session_demo') }}
+<hr>
+<a href="{{ url_for('order_demo', order_id=666) }}">订单详情</a>
+<hr>
+{#6. get_flashed_messages #}
+{# 需要配合flash使用, flash的消息没有被显示的会存起来. 一次性会全部显示. 之后就没有了 #}
+{% for get_flashed_message in get_flashed_messages() %}
+    {{ get_flashed_message }}
+{% endfor %}
+
+</body>
+</html>

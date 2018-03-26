@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% macro input(label="", type="text", name="", value="") %}
+    <label>{{ label }}</label><input type="{{ type }}" name="{{ name }}" value="{{ value }}"><br>
+{% endmacro %}
+</body>
+</html>

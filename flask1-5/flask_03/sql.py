@@ -1,0 +1,21 @@
+# -*- coding:utf-8 -*-
+from demo3_SQLALchemy import *
+ro1 = Role(name='admin')
+db.session.add(ro1)
+db.session.commit()
+#再次插入一条数据
+ro2 = Role(name='user')
+db.session.add(ro2)
+db.session.commit()
+us1 = User(name='wang',email='wang@163.com',password='123456',role_id=ro1.id)
+us2 = User(name='zhang',email='zhang@189.com',password='201512',role_id=ro2.id)
+us3 = User(name='chen',email='chen@126.com',password='987654',role_id=ro2.id)
+us4 = User(name='zhou',email='zhou@163.com',password='456789',role_id=ro1.id)
+us5 = User(name='tang',email='tang@itheima.com',password='158104',role_id=ro2.id)
+us6 = User(name='wu',email='wu@gmail.com',password='5623514',role_id=ro2.id)
+us7 = User(name='qian',email='qian@gmail.com',password='1543567',role_id=ro1.id)
+us8 = User(name='liu',email='liu@itheima.com',password='867322',role_id=ro1.id)
+us9 = User(name='li',email='li@163.com',password='4526342',role_id=ro2.id)
+us10 = User(name='sun',email='sun@163.com',password='235523',role_id=ro2.id)
+db.session.add_all([us1,us2,us3,us4,us5,us6,us7,us8,us9,us10])
+db.session.commit()

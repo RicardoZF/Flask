@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cycle</title>
+</head>
+<body>
+<ul>
+{% for num in list if num > 2 %}
+<li>{{ num }}</li>
+{% endfor %}
+</ul>
+<br>
+<ul>
+{% for num in list if num > 1 %}
+<li> {{ loop.cycle('a','b') }}-
+    {{ num }}</li>
+{% endfor %}
+</ul>
+<hr>
+
+{% for num in list  %}
+    {{ num }}
+{% endfor %}
+<hr>
+
+{% for num in list  -%}
+    {{ num }}
+{%- endfor %}
+
+
+</body>
+</html>
