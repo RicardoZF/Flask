@@ -1,25 +1,19 @@
 # -*- coding:utf-8 -*-
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+
 from flask_migrate import MigrateCommand,Migrate
 from flask_script import Manager
-from config import DevelopmentConfig
+from ihome import create_app
+from config import DevelopmentConfig,ProductionConfig
+# manager文件主要管理文件启动:config配置/app创建/路由实现都不需要关心
 
-app = Flask(__name__)
-
-#  配置,迁移数据库
-app.config.from_object(DevelopmentConfig)
+# 程序的启动是调试模式还是发布模式,通过传参实现
+app,db = create_app(DevelopmentConfig)
 
 manager = Manager(app)
-db = SQLAlchemy(app)
 
 Migrate(app,db)
 
 manager.add_command('db',MigrateCommand)
-
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
 
 
 if __name__ == '__main__':
