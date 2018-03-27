@@ -3,11 +3,13 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import MigrateCommand,Migrate
 from flask_script import Manager
+from config import DevelopmentConfig
+
 app = Flask(__name__)
 
 #  配置,迁移数据库
-app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:mysql@127.0.0.1/ihome06'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config.from_object(DevelopmentConfig)
+
 manager = Manager(app)
 db = SQLAlchemy(app)
 
