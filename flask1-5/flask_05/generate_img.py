@@ -25,6 +25,8 @@ class AccessToken(object):
         if not cls.__access_token.get('access_token') or \
                 (time.time() - cls.__access_token.get('update_time') > cls.__access_token.get('expires_in')):
 
+            # 获取数据
+
             url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s' % (APPID, APPSECRET)
 
             response = urllib2.urlopen(url)
@@ -36,10 +38,12 @@ class AccessToken(object):
             if 'errcode' in resp_dict:
                 raise Exception(resp_dict.get('errmsg'))
 
+            # 重新赋值
             cls.__access_token['access_token'] = resp_dict.get('access_token')
             cls.__access_token['expires_in'] = resp_dict.get('expires_in')
             cls.__access_token['update_time'] = time.time()
 
+        # 返回token
         return cls.__access_token.get('access_token')
 
 
