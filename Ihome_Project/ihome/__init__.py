@@ -9,6 +9,8 @@ from config import Config
 from flask_session import Session
 
 # 所有的flask扩展都可以延迟加载,先再函数外部定义,方便别的文件导入,延迟传入app来加载相关配置
+from ihome.utils import RegexConverter
+
 db = SQLAlchemy()
 redis_store = None
 
@@ -41,10 +43,17 @@ def create_app(config_obj):
     # 创建Session, 将session数据从以前默认的cookie, 存放到redis中
     Session(app)
 
+    # 向app中添加自定义的路由转换器
+    app.url_map.converters['re']=RegexConverter
+
     # 将导包语句放在这,用时再导包,解决循环导包问题
     from ihome.api_1_0 import api
     # 注册蓝图,可传参
     app.register_blueprint(api,url_prefix='/api/1.0')
+
+    # 注册静态文件蓝图
+    import web_html
+    app.register_blueprint(web_html.html)
     return app,db
 
 #
