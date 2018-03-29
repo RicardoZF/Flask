@@ -4,6 +4,7 @@ from flask import session
 import logging
 from . import api
 from ihome import db
+from ihome import models
 
 @api.route('/')
 def hello_world():

@@ -1,0 +1,17 @@
+WARNING _internal.py:87  * Debugger is active!
+INFO _internal.py:87  * Debugger PIN: 774-434-679
+DEBUG index.py:11 This is a debug log.
+INFO index.py:12 This is a info log.
+WARNING index.py:13 This is a warning log.
+ERROR index.py:14 This is a error log.
+CRITICAL index.py:15 This is a critical log.
+INFO _internal.py:87 127.0.0.1 - - [28/Mar/2018 10:17:59] "GET /api/1.0/ HTTP/1.1" 200 -
+INFO _internal.py:87  * Detected change in '/home/python/Desktop/Flask/Ihome_Project/ihome/api_1_0/index.py', reloading
+WARNING _internal.py:87  * Debugger is active!
+INFO _internal.py:87  * Debugger PIN: 774-434-679
+DEBUG index.py:11 This is a debug log.
+INFO index.py:12 This is a info log.
+WARNING index.py:13 This is a warning log.
+ERROR index.py:14 This is a error log.
+CRITICAL index.py:15 This is a critical log.
+INFO _internal.py:87 127.0.0.1 - - [28/Mar/2018 10:20:33] "GET /api/1.0/ HTTP/1.1" 200 -

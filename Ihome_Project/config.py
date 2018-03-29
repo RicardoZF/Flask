@@ -3,7 +3,7 @@ import redis
 class Config(object):
     # 配置数据库
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:mysql@127.0.0.1/ihome06'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:mysql@127.0.0.1/ihome'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # 是app.secret_key的值,secret_key = ConfigAttribute('SECRET_KEY')
