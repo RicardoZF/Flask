@@ -36,9 +36,9 @@ def create_app(config_obj):
     # 开启csrf保护
     CSRFProtect(app)
 
-    # 创建redis
+    # 创建redis对象
     global redis_store
-    redis_store =  redis.StrictRedis(host=Config.REDIS_HOST,port=Config.REDIS_PORT)
+    redis_store = redis.StrictRedis(host=Config.REDIS_HOST,port=Config.REDIS_PORT,db=2)
 
     # 创建Session, 将session数据从以前默认的cookie, 存放到redis中
     Session(app)
@@ -49,7 +49,7 @@ def create_app(config_obj):
     # 将导包语句放在这,用时再导包,解决循环导包问题
     from ihome.api_1_0 import api
     # 注册蓝图,可传参
-    app.register_blueprint(api,url_prefix='/api/1.0')
+    app.register_blueprint(api,url_prefix='/api/v1_0')
 
     # 注册静态文件蓝图
     import web_html
