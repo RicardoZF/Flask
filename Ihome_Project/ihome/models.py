@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from ihome import db
+from werkzeug.security import generate_password_hash,check_password_hash
 
 class BaseModel(object):
     """模型基类，为每个模型补充创建时间与更新时间"""
@@ -27,6 +28,18 @@ class User(BaseModel, db.Model):
     houses = db.relationship("House", backref="user")  # 用户发布的房屋
     orders = db.relationship("Order", backref="user")  # 用户下的订单
 
+    # 在User下方增加以下函数
+    # 通过property装饰器, 将password函数提升为属性
+    @property
+    def password(self):
+        # 在getter方法中,禁止读取密码
+        return ArithmeticError('不支持读取操作')
+
+    @password.setter
+    def password(self,value):
+        # 在属性的setter方法中执行加密处理
+        # 直接传入value即可, 默认sha256, 并会生成随机的8位盐值
+        self.password_hash = generate_password_hash(value)
 
 class Area(BaseModel, db.Model):
     """城区"""

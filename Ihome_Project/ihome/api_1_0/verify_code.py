@@ -64,7 +64,8 @@ def get_sms_codes(mobile):
     # 1.1 获取数据,图形验证码
     try:
         real_image_code = redis_store.get('image_code_%s'%image_code_id)
-    except Exception:
+    except Exception as e:
+        logging.error(e)
         resp = {
             'erron': RET.DBERR,
             'errmsg': 'redis读取失败'
@@ -83,7 +84,8 @@ def get_sms_codes(mobile):
     # 已获取了变量real_image_code,不影响1.4对比
     try:
         redis_store.delete('image_code_%s'%image_code_id)
-    except Exception:
+    except Exception as e:
+        logging.error(e)
         resp = {
             'erron': RET.DBERR,
             'errmsg': 'redis数据删除失败'
@@ -102,7 +104,8 @@ def get_sms_codes(mobile):
     # 2.1 从mysql中取用户数据
     try:
         user = User.query.filter_by(mobile = mobile).first()
-    except Exception:
+    except Exception as e:
+        logging.error(e)
         resp = {
             'erron': RET.DBERR,
             'errmsg': 'mysql查询失败'
@@ -116,12 +119,26 @@ def get_sms_codes(mobile):
             'errmsg': '用户已注册'
         }
         return jsonify(resp)
+
     # 3 发送短信验证码
     # 3.1 生成随机6位数
     # %06d: 6位数字, 不足以0补齐
     sms_code = '%06d'%random.randint(0,999999)
     ccp = CCP()
     result = ccp.send_template_sms(mobile, [sms_code, '5'], 1)
+
+    # 3.2 try:将短信验证码保存redis中
+    try:
+        # 保存到redis中 setex: 可以设置数据并设置有效期
+        # 需要三个参数: key , expiretime, value
+        redis_store.setex('sms_code_' + mobile, 300, sms_code)
+    except Exception as e:
+        logging.error(e)
+        resp_dict = {
+            'errno': RET.DBERR,
+            'errmsg': '保存验证码异常'
+        }
+        return jsonify(resp_dict)
 
     # 四 返回数据
     if result == '000000':
