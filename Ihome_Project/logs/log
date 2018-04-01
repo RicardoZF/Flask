@@ -733,3 +733,5 @@ INFO _internal.py:87 127.0.0.1 - - [01/Apr/2018 21:03:39] "GET /api/v1_0/image_c
 INFO _internal.py:87 127.0.0.1 - - [01/Apr/2018 21:03:49] "GET /api/v1_0/sms_codes/13112345678?image_code_id=41492414-f465-407f-a1a0-0b03c87998d5&image_code=v9eg HTTP/1.1" 200 -
 INFO csrf.py:251 The CSRF token is missing.
 INFO _internal.py:87 127.0.0.1 - - [01/Apr/2018 21:04:07] "POST /api/v1_0/users HTTP/1.1" 400 -
+WARNING _internal.py:87  * Debugger is active!
+INFO _internal.py:87  * Debugger PIN: 774-434-679
