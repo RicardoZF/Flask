@@ -41,6 +41,10 @@ class User(BaseModel, db.Model):
         # 直接传入value即可, 默认sha256, 并会生成随机的8位盐值
         self.password_hash = generate_password_hash(value)
 
+    def check_password(self,vaule):
+        """检查用户密码， value 是用户填写密码"""
+        return check_password_hash(self.password_hash,vaule)
+
 class Area(BaseModel, db.Model):
     """城区"""
 

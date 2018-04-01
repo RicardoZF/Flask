@@ -100,3 +100,71 @@ def register():
     # 四 返回结果
     return jsonify(errno=RET.OK,errmsg='注册成功')
 
+# URL:/api/v1_0/sessions
+# 参数: mobile password
+@api.route('/sessions', methods=['POST'])
+def login():
+    """登陆"""
+    # 一 获取参数
+    get_json = request.get_json()
+    mobile = get_json.get('mobile')
+    password = get_json.get('password')
+    # 二 校验参数
+    # 1 参数完整性
+    if not  all([mobile,password]):
+        return jsonify(errno=RET.PARAMERR,errms='参数不全')
+    # 2 手机号格式是否正确
+    if not re.match(r"^1[3456789][0-9]{9}$", mobile):
+        return jsonify(errno=RET.PARAMERR, errmsg='手机号格式有误')
+
+    # 三 逻辑处理
+    # 1.从redis中获取登陆的次数-->超过最大次数5次,直接返回
+    # 获取远程ip
+    user_ip = request.remote_addr
+    try:
+        # 查询错误次数
+        err_count = redis_store.get('user_error_count_%s'%user_ip)
+    except Exception as e:
+        logging.error(e)
+        return jsonify(errno=RET.DBERR, errmsg='redis读取错误次数失败')
+    # 2.未超过5次,判断用户是否存在或密码是否正确,如果有问题则返回错误,并增加错误次数
+    # 2.1 如果用户存在并且错误次数大于5,直接返回
+    if err_count is not None and int(err_count) >=5 :
+        return jsonify(errno=RET.REQERR, errmsg='错误次数已达上限,请明日后再登陆')
+    # 获取用户
+    try:
+        user = User.query.filter_by(mobile=mobile).first()
+    except Exception as e:
+        logging.error(e)
+        return jsonify(errno=RET.DBERR, errmsg='mysql查询错误')
+
+    # 用户名或密码错误,返回错误信息,增加错误次数
+    if user is None or not user.check_password(password):
+        try:
+            # 累加错误次数,设置过期时间 一天
+            # incr:累加错误次数
+            redis_store.incr('user_error_count_%s'%user_ip)
+            redis_store.expire('user_error_count_%s'%user_ip,86400)
+        except Exception as e:
+            logging.error(e)
+        return jsonify(errno=RET.LOGINERR, errmsg='用户名或密码错误')
+
+    # 3.设置session数据
+    try:
+        session['user_id']=user.id
+        session['user_name']=user.name
+        session['user_mobile']=user.mobile
+    except Exception as e:
+        logging.error(e)
+        return jsonify(errno=RET.SESSIONERR, errmsg='用户信息session设置失败')
+
+    # 4.登陆成功,删除记录的错误次数
+    try:
+        redis_store.delete('user_error_count_%s'%user_ip)
+    except Exception as e:
+        logging.error(e)
+        return jsonify(errno=RET.DBERR, errmsg='redis错误次数删除失败')
+
+    # 四 返回数据
+    return jsonify(errno=RET.OK, errmsg='登陆成功')
+
