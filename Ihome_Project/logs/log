@@ -484,3 +484,5 @@ INFO _internal.py:87 127.0.0.1 - - [30/Mar/2018 22:04:27] "GET /api/v1_0/image_c
 INFO _internal.py:87 127.0.0.1 - - [30/Mar/2018 22:04:36] "GET /api/v1_0/sms_codes/16564547894?image_code_id=ca83f1b9-3096-42c1-b593-40523dabd2e3&image_code=6656 HTTP/1.1" 200 -
 WARNING _internal.py:87  * Debugger is active!
 INFO _internal.py:87  * Debugger PIN: 774-434-679
+WARNING _internal.py:87  * Debugger is active!
+INFO _internal.py:87  * Debugger PIN: 774-434-679
