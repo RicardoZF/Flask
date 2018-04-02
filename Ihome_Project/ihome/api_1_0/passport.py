@@ -168,3 +168,16 @@ def login():
     # 四 返回数据
     return jsonify(errno=RET.OK, errmsg='登陆成功')
 
+
+@api.route('/sessions',methods=['GET'])
+def check_login():
+    '''检查登陆状态'''
+    # 从session中获取用户name
+    name = session.get('user_name')
+    # 有name代表登陆,无,未登陆
+    if name is None:
+        return jsonify(errno=RET.SESSIONERR,errmsg='false')
+    else:
+        return jsonify(errno=RET.OK, errmsg='true',data={'name':name})
+
+
