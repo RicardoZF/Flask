@@ -5,4 +5,4 @@ from flask import Blueprint
 api = Blueprint('api',__name__)
 
 # 导入子模块
-import index,verify_code,passport
+import index,verify_code,passport,profile

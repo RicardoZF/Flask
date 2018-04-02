@@ -45,6 +45,17 @@ class User(BaseModel, db.Model):
         """检查用户密码， value 是用户填写密码"""
         return check_password_hash(self.password_hash,vaule)
 
+    def to_dict(self):
+        """将对象转换为字典数据"""
+        user_dict ={
+            'name':self.name,
+            'user_id':self.id,
+            'mobile':self.mobile,
+            'avatar':self.avatar_url,
+            "create_time": self.create_time.strftime("%Y-%m-%d %H:%M:%S"),
+        }
+        return user_dict
+
 class Area(BaseModel, db.Model):
     """城区"""
 
