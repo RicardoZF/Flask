@@ -3,6 +3,7 @@ import logging
 
 from ihome.models import User
 from ihome.utils.response_code import RET
+from ihome.utils.common import login_required
 from . import api
 from flask import request, jsonify,current_app,session
 import re
@@ -181,3 +182,13 @@ def check_login():
         return jsonify(errno=RET.OK, errmsg='true',data={'name':name})
 
 
+@api.route('/sessions',methods=['DELETE'])
+@login_required
+def logout():
+    """登出"""
+    # 清除session数据,csrf_token需要保留
+    csrf_token = session['csrf_token']
+    session.clear()
+    session['csrf_token']=csrf_token
+
+    return jsonify(errno=RET.OK,errmsg='OK')
