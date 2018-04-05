@@ -3,6 +3,7 @@
 from datetime import datetime
 from ihome import db
 from werkzeug.security import generate_password_hash,check_password_hash
+from ihome.utils import constants
 
 class BaseModel(object):
     """模型基类，为每个模型补充创建时间与更新时间"""
@@ -120,6 +121,22 @@ class House(BaseModel, db.Model):
     facilities = db.relationship("Facility", secondary=house_facility)  # 房屋的设施
     images = db.relationship("HouseImage")  # 房屋的图片
     orders = db.relationship("Order", backref="house")  # 房屋的订单
+
+    def to_basic_dict(self):
+        """将基本信息转换为字典数据"""
+        house_dict = {
+            "house_id": self.id,
+            "title": self.title,
+            "price": self.price,
+            "area_name": self.area.name,
+            "img_url": constants.QINIU_URL_DOMAIN + self.index_image_url if self.index_image_url else "",
+            "room_count": self.room_count,
+            "order_count": self.order_count,
+            "address": self.address,
+            "user_avatar": constants.QINIU_URL_DOMAIN + self.user.avatar_url if self.user.avatar_url else "",
+            "ctime": self.create_time.strftime("%Y-%m-%d")
+        }
+        return house_dict
 
 
 class Facility(BaseModel, db.Model):
