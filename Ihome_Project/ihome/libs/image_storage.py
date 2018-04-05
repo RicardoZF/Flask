@@ -26,7 +26,7 @@ def storage(file_data):
     q = Auth(access_key, secret_key)
 
     # 要上传的空间
-    bucket_name = 'NB-home'
+    bucket_name = 'nb-home'
 
     # 我们不需要这个Key. 七牛会自动生成
     # 上传到七牛后保存的文件名

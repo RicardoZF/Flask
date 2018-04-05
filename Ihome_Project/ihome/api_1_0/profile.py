@@ -106,36 +106,6 @@ def get_user_info():
     return jsonify(errno=RET.OK, errmsg='OK',data=user.to_dict())
 
 
-# @api.route('/users/auth', methods=['POST'])
-# @login_required
-# def set_user_auth():
-#     """设置实名认证信息"""
-#     user_id = g.user_id
-#     # 获取参数
-#     req_data = request.get_json()
-#     if not req_data:
-#         return jsonify(errno=RET.PARAMERR, errmsg="参数错误")
-#
-#     # 真实姓名,身份证号
-#     real_name = req_data.get('real_name')
-#     id_card = req_data.get('id_card')
-#     # 校验参数
-#     if not all([real_name,id_card]):
-#         return jsonify(errno=RET.PARAMERR, errmsg="参数不全")
-#
-#     # 保存到数据库
-#         # 保存用户的姓名与身份证号
-#     try:
-#         User.query.filter_by(id=user_id, real_name=None, id_card=None) \
-#             .update({"real_name": real_name, "id_card": id_card})
-#         db.session.commit()
-#     except Exception as e:
-#         logging.error(e)
-#         db.session.rollback()
-#         return jsonify(errno=RET.DBERR, errmsg="保存用户实名信息失败")
-#
-#     return jsonify(errno=RET.OK, errmsg="OK")
-
 @api.route("/users/auth", methods=["POST"])
 @login_required
 def set_user_auth():
