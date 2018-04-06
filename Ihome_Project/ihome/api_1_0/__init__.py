@@ -5,7 +5,8 @@ from flask import Blueprint
 api = Blueprint('api',__name__)
 
 # 导入子模块
-import index,verify_code,passport,profile,house
+import index,verify_code,passport,profile,house,order
+
 
 @api.after_request
 def after_request(response):

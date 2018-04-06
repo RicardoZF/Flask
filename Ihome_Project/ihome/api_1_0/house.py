@@ -366,8 +366,8 @@ def get_house_list():
     # 三. 逻辑处理
     # 3.1 从redis中取数据,有数据,直接返回
     try:
-        redis_key = 'houses_%s_%s_%s_%s'%(start_date_str,end_date_str, area_id, sort_key)
-        resp_json = redis_store.hget(redis_key,page)
+        redis_key = 'houses_%s_%s_%s_%s' % (start_date_str, end_date_str, area_id, sort_key)
+        resp_json = redis_store.hget(redis_key, page)
     except Exception as e:
         logging.error(e)
         resp_json = None
@@ -418,7 +418,7 @@ def get_house_list():
     # 3.2.5 分页
     try:
         #                              页数    房屋列表页面每页的数量              错误输出
-        house_page = house_query.paginate(page,constants.HOUSE_LIST_PAGE_CAPACITY,False)
+        house_page = house_query.paginate(page, constants.HOUSE_LIST_PAGE_CAPACITY, False)
     except Exception as e:
         logging.error(e)
         return jsonify(errno=RET.DBERR, errmsg="数据库异常")
@@ -444,8 +444,8 @@ def get_house_list():
             pipeline = redis_store.pipeline()
             # 开启事务
             pipeline.multi()
-            pipeline.hset(redis_key,page,resp_json)
-            pipeline.expire(redis_key,constants.HOUSE_LIST_PAGE_REDIS_EXPIRES)
+            pipeline.hset(redis_key, page, resp_json)
+            pipeline.expire(redis_key, constants.HOUSE_LIST_PAGE_REDIS_EXPIRES)
             # 执行事务
             pipeline.execute()
         except Exception as e:
