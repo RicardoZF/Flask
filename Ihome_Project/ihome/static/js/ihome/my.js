@@ -36,5 +36,5 @@ $(document).ready(function(){
             $("#user-avatar").attr("src", resp.data.avatar);
         }
     }
-}, "json");
-});
+    }, "json");
+})

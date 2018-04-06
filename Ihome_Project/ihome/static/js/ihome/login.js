@@ -24,7 +24,8 @@ $(document).ready(function() {
             $("#password-err").show();
             return;
         }
-         //定义数据-->JS对象
+
+        //定义数据-->JS对象
         var data = {
             mobile: mobile,
             password: passwd
@@ -53,6 +54,5 @@ $(document).ready(function() {
                 }
             }
         });
-
     });
 })

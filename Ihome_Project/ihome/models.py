@@ -2,8 +2,9 @@
 
 from datetime import datetime
 from ihome import db
-from werkzeug.security import generate_password_hash,check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from ihome.utils import constants
+
 
 class BaseModel(object):
     """模型基类，为每个模型补充创建时间与更新时间"""
@@ -37,22 +38,22 @@ class User(BaseModel, db.Model):
         return ArithmeticError('不支持读取操作')
 
     @password.setter
-    def password(self,value):
+    def password(self, value):
         # 在属性的setter方法中执行加密处理
         # 直接传入value即可, 默认sha256, 并会生成随机的8位盐值
         self.password_hash = generate_password_hash(value)
 
-    def check_password(self,vaule):
+    def check_password(self, vaule):
         """检查用户密码， value 是用户填写密码"""
-        return check_password_hash(self.password_hash,vaule)
+        return check_password_hash(self.password_hash, vaule)
 
     def to_dict(self):
         """将对象转换为字典数据"""
-        user_dict ={
-            'name':self.name,
-            'user_id':self.id,
-            'mobile':self.mobile,
-            'avatar':self.avatar_url,
+        user_dict = {
+            'name': self.name,
+            'user_id': self.id,
+            'mobile': self.mobile,
+            'avatar': self.avatar_url,
             "create_time": self.create_time.strftime("%Y-%m-%d %H:%M:%S"),
         }
         return user_dict
@@ -65,6 +66,7 @@ class User(BaseModel, db.Model):
             "id_card": self.id_card
         }
         return auth_dict
+
 
 class Area(BaseModel, db.Model):
     """城区"""
@@ -79,10 +81,11 @@ class Area(BaseModel, db.Model):
     def to_dict(self):
         """城区信息处理"""
         area_dict = {
-            'aid':self.id,
-            'aname':self.name
+            'aid': self.id,
+            'aname': self.name
         }
         return area_dict
+
 
 # 房屋设施表，建立房屋与设施的多对多关系
 # 如果是多对多, 直接操作底层的表
@@ -183,6 +186,7 @@ class House(BaseModel, db.Model):
             comments.append(comment)
         house_dict["comments"] = comments  # [{},{},{}]
         return house_dict
+
 
 class Facility(BaseModel, db.Model):
     """设施信息"""

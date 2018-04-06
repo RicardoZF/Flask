@@ -1,9 +1,8 @@
 function showSuccessMsg() {
-    $('.popup_con').fadeIn('fast', function () {
-        setTimeout(function () {
-            $('.popup_con').fadeOut('fast', function () {
-            });
-        }, 1000)
+    $('.popup_con').fadeIn('fast', function() {
+        setTimeout(function(){
+            $('.popup_con').fadeOut('fast',function(){}); 
+        },1000) 
     });
 }
 
@@ -11,8 +10,10 @@ function getCookie(name) {
     var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
     return r ? r[1] : undefined;
 }
+
 $(document).ready(function () {
     // 页面加载好
+
     $("#form-avatar").submit(function (event) {
         // 阻止表单的默认行为
         event.preventDefault();
@@ -28,7 +29,7 @@ $(document).ready(function () {
                 if (resp.errno == 0) {
                     // 上传头像成功, 设置页面中头像展示的url
                     $("#user-avatar").attr("src", resp.data.avatar_url);
-                } else if (resp.errno == 4101) {
+                } else if (resp.errno == 4101 ){
                     // 表示用户未登录, 跳转到登录页面
                     location.href = "/login.html";
                 } else {
@@ -37,7 +38,8 @@ $(document).ready(function () {
             }
         });
     });
-    $("#form-name").submit(function (e) {
+
+    $("#form-name").submit(function(e){
         e.preventDefault();
         // 获取参数
         var name = $("#user-name").val();
@@ -47,13 +49,13 @@ $(document).ready(function () {
             return;
         }
         $.ajax({
-            url: "/api/v1_0/users/name",
-            type: "PUT",
+            url:"/api/v1_0/users/name",
+            type:"PUT",
             data: JSON.stringify({name: name}),
             contentType: "application/json",
             dataType: "json",
-            headers: {
-                "X-CSRFToken": getCookie("csrf_token")
+            headers:{
+                "X-CSRFToken":getCookie("csrf_token")
             },
             success: function (data) {
                 if (data.errno == 0) {
@@ -67,7 +69,4 @@ $(document).ready(function () {
             }
         });
     })
-});
-
-
-
+})
